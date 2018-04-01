@@ -1,10 +1,8 @@
 package com.ambari;
 
 import java.io.File;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -135,6 +133,22 @@ public class AmbariController {
 	@ResponseBody
 	public String stopHue(){
 		String scriptPath = request.getRealPath(File.separator) + "script/hue-manager.sh stop";
+		return CommonUtils.executeScript(scriptPath);
+	}
+	//-------------------------------------------------------------------------------------------//
+	//kafka
+	//-------------------------------------------------------------------------------------------//
+	@RequestMapping("/startKafka")
+	@ResponseBody
+	public String startKafka(){
+		String scriptPath = request.getRealPath(File.separator) + "script/kafka-cluster.sh start";
+		return CommonUtils.executeScript(scriptPath);
+	}
+	
+	@RequestMapping("/stopKafka")
+	@ResponseBody
+	public String stopKafka(){
+		String scriptPath = request.getRealPath(File.separator) + "script/kafka-cluster.sh stop";
 		return CommonUtils.executeScript(scriptPath);
 	}
 	//-------------------------------------------------------------------------------------------//

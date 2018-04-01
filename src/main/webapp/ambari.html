@@ -18,7 +18,7 @@
 		border:1px solid grey;
 		border-radius: 3px;
 		margin:20px;
-		height:480px;
+		height:440px;
 		padding:10px;
 	}
 </style>
@@ -26,6 +26,7 @@
 
 <body>
 	<div class="outer">
+	
 		<div>
 			<button class="btn btn-success" onclick="sumbmitOper('startHadoop')" style="width: 168px;">
 				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动Hadoop
@@ -54,7 +55,8 @@
 			<button class="btn btn-primary" onclick="sumbmitOper('stopSpark')" style="width: 168px;">
 				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止Spark
 			</button>
-		</div>
+		</div>  
+		
 		<div style="margin-top:6px;">
 			<button class="btn btn-success" onclick="sumbmitOper('startHiveMetastore')" style="width: 168px;">
 				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动HiveMetastore
@@ -76,9 +78,19 @@
 			<button class="btn btn-primary" onclick="sumbmitOper('stopHue')" style="width: 168px;">
 				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止Hue
 			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-success" onclick="sumbmitOper('startKafka')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动kafka
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopKafka')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止kafka
+			</button>
+		</div>
+		
+		<div style="margin-top:6px;">
 			<!-- 按钮触发模态框 -->
 			<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" 
-				style="margin-left: 20px;width: 168px;">开始演示模态框</button>
+				style="width: 168px;">开始演示模态框</button>
 			<!-- 模态框（Modal） -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
 										aria-labelledby="myModalLabel" aria-hidden="true">
@@ -116,6 +128,7 @@
 				<i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;清空&nbsp;&nbsp;
 			</button>
 		</div>
+		
 	</div>
 	<!--<div class="page-header" style="margin-left: 20px;margin-right: 20px;"></div>-->
 

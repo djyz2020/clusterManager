@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- 引入bootstrap样式 -->
+<link rel="stylesheet" href="css/bootstrap.min.css"  />
+<!-- 引入jquery,必须在引入bootstrap.min.js之前引入 -->
+<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+<!-- 引入bootstrap.min.js -->
+<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+<title>Ambari首页</title>
+<style type="text/css">
+	.outer{
+		margin-left:20px;
+		margin-top:20px;
+	}
+	.result{
+		border:1px solid grey;
+		border-radius: 3px;
+		margin:20px;
+		height:480px;
+		padding:10px;
+	}
+</style>
+</head>
+
+<body>
+	<div class="outer">
+		<div>
+			<button class="btn btn-success" onclick="sumbmitOper('startHadoop')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动Hadoop
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopHadoop')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止Hadoop
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-success" onclick="sumbmitOper('startZookeeper')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动Zookeeper
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopZookeeper')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止Zookeeper
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-success" onclick="sumbmitOper('startHBase')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动HBase
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopHBase')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止HBase
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-success" onclick="sumbmitOper('startSpark')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动Spark
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopSpark')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止Spark
+			</button>
+		</div>
+		<div style="margin-top:6px;">
+			<button class="btn btn-success" onclick="sumbmitOper('startHiveMetastore')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动HiveMetastore
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopHiveMetastore')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止HiveMetastore
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-success" onclick="sumbmitOper('startHBaseThrift')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动HBaseThrift
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopHBaseThrift')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止HBaseThrift
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-success" onclick="sumbmitOper('startHue')" style="width: 168px;">
+				<i class="glyphicon glyphicon-play"></i>&nbsp;&nbsp;启动Hue
+			</button>
+			<button class="btn btn-primary" onclick="sumbmitOper('stopHue')" style="width: 168px;">
+				<i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;停止Hue
+			</button>
+			<!-- 按钮触发模态框 -->
+			<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" 
+				style="margin-left: 20px;width: 168px;">开始演示模态框</button>
+			<!-- 模态框（Modal） -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+										aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+			            </div>
+			            <div class="modal-body">在这里添加一些文本</div>
+			            <div class="modal-footer">
+			            	
+			                <div>
+			                	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			                	<button type="button" class="btn btn-primary">提交更改</button>
+			                </div> <br />
+			               
+			                <div class="progress progress-striped active" style="margin-left: 20px;margin-right: 20px;float: true;">
+						        <div id="prog" class="progress-bar" role="progressbar" aria-valuenow="" 
+						        		aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+						            <span id="proglabel">正在启动，请稍后......</span>
+						        </div>
+						    </div>    
+						    <div class="form-group">
+						        <div class="col-sm-offset-4 col-sm-6">
+						            <button id="pause" class="btn btn-primary" value="stop">暂停</button>
+						            <button id="start" class="btn btn-primary" value="start">开始</button>
+						        </div>
+						    </div>  
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			<button class="btn btn-danger" onclick="clearOut()" style="width:168px;">
+				<i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;清空&nbsp;&nbsp;
+			</button>
+		</div>
+	</div>
+	<!--<div class="page-header" style="margin-left: 20px;margin-right: 20px;"></div>-->
+
+	<div id="result" class="result" style="overflow: auto"></div>
+	<input style="width:92.5%; height:32px; border:1px solid black; margin-left:20px; border-radius:3px;"
+		placeholder="请输入shell命令" id = "shellCommand" value="jps">
+	<button class="btn btn-primary" onclick="sumbmitCommand()">&nbsp;&nbsp;执行&nbsp;&nbsp;</button>
+	<div style="margin-left:20px;margin-top:8px;">
+		<button class="btn btn-primary" onclick="hadoopIndex()" style="width:128px;">
+			<i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Hadoop首页
+		</button>
+		<button class="btn btn-primary" onclick="hbaseIndex()" style="width:128px;">
+			<i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;HBase首页
+		</button>
+		<button class="btn btn-primary" onclick="sparkIndex()" style="width:128px;">
+			<i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Spark首页
+		</button>
+		<button class="btn btn-primary" onclick="hueIndex()" style="width:128px;">
+			<i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Hue首页
+		</button>
+	</div>
+	
+	<!--
+		bootstrap与jQuery结合的动态进度条
+		1.利用了bootstrap的进度条组件。
+　　			a.在最外层的<div>中加入class .progress，在里层<div>加入class .progress-bar从而实现基本的进度条。
+　			b.在外层<div>中加入class .progress－striped实现条纹进度条。
+			c.在内层<div>加入class .progress－bar－danger/warning/info/success 从而实现红色、黄色、蓝色、绿色
+			d.在外层<div>中加入class .active 实现动画效果
+		2.利用jQuery对进度条进度进行控制。
+　　			0-30时显示红色，30-60显示黄色，60-90显示绿色，90-100显示绿色
+　　			实现进度条暂停、停止、重新开始、继续功能
+	-->
+	<!--<div class="progress progress-striped active" style="margin-left: 20px;margin-right: 20px;float: true;">
+        <div id="prog" class="progress-bar" role="progressbar" aria-valuenow="" 
+        		aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+            <span id="proglabel">正在启动，请稍后......</span>
+        </div>
+    </div>    
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-6">
+            <button id="pause" class="btn btn-primary" value="stop">暂停</button>
+            <button id="start" class="btn btn-primary" value="start">开始</button>
+        </div>
+    </div> -->  
+    
+</body>
+
+<script type="text/javascript">
+	//集群操作
+	function sumbmitOper(oper){
+		$.post(oper + ".do","",
+			function(data, status){
+				$("#result").html($("#result").html() + data);
+		  	}
+	 	);
+	}
+	//shell命令
+	function sumbmitCommand(){
+		$.ajax({
+		  	type: 'POST',
+		  	url: "executeCommand.do",
+		  	data: {"command": $("#shellCommand").val()},
+		  	success: function(data, status){
+	   			 $("#result").html($("#result").html() + data);
+	  	 	}
+		});
+	}
+	//清空
+	function clearOut(){
+		$("#result").html("");
+	}
+	//hadoop首页
+	function hadoopIndex(){
+		window.open("http://master.bigdata.com:50070");
+	}
+	//hbase首页
+	function hbaseIndex(){
+		window.open("http://master.bigdata.com:60010");
+	}
+	//spark首页
+	function sparkIndex(){
+		window.open("http://master.bigdata.com:8080");
+	}
+	//hue首页
+	function hueIndex(){
+		window.open("http://master.bigdata.com:8888");
+	}
+	
+	//进度条
+	 $(document).ready(function(){
+       	 var value = 0;
+         var time = 50;
+         var flag = true;
+        
+	     //进度条复位函数
+	     function reset() {
+	     	flag = false;
+	        value = 0;
+	        $("#prog").removeClass("progress-bar-success").css("width", value + "%").text("等待启动");
+	        $("#pause").val("stop").text("暂停");
+	     }
+	        
+	     //百分数增加，0-30时为红色，30-60为黄色，60-90为蓝色，>90为绿色
+	     function increment( ) {
+	        value += 1;
+	        $("#prog").css("width",value + "%").text(value + "%");
+	        if (value>=0 && value<=30) {
+	            $("#prog").addClass("progress-bar-danger");
+	        } else if (value>=30 && value <=60) {
+	            $("#prog").removeClass("progress-bar-danger");
+	            $("#prog").addClass("progress-bar-warning");
+	        } else if (value>=60 && value <=90) {
+	            $("#prog").removeClass("progress-bar-warning");
+	            $("#prog").addClass("progress-bar-info");
+	        } else if(value >= 90 && value<100) {
+	            $("#prog").removeClass("progress-bar-info");
+	            $("#prog").addClass("progress-bar-success");  
+	            $("#start").val("restart").text("重新开始");
+	        } else{
+	            setTimeout(reset,3000);
+	            return;
+	        }
+	        if(flag){
+	        	st = setTimeout(increment, time);
+	        }else{
+	        	return;
+	        }
+	    }
+	     
+	    //进度条开始与重新开始
+	    $("#start").click(function () {
+	        if ("restart" == $("#start").val()) {
+	        	flag = false;
+	        	if(st != null){
+	        		clearTimeout(st);
+	        	}
+	           	reset();
+	            $("#start").val("start").text("开始");
+	        } else if ("start" == $("#start").val()) {
+	        	flag = true;
+	            increment(); 
+	            $("#start").val("restart").text("重新开始");
+	        }
+	    });
+	      
+	    //进度条暂停与继续
+	    $("#pause").click(function() {
+	    	if(value <= 0){
+	    		return;
+	    	}
+	        if ("stop" == $("#pause").val()) {
+	            flag = false;
+	            if(st != null){
+	        		clearTimeout(st);
+	        	}
+	            $("#pause").val("goon").text("继续");
+	        } else if ("goon" == $("#pause").val()) {
+        		flag = true;
+          		increment();
+          		$("#pause").val("stop").text("暂停");
+	        }
+	    });
+	        
+    });
+</script>
+
+</html>

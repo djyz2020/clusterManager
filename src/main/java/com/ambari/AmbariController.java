@@ -152,6 +152,23 @@ public class AmbariController {
 		return CommonUtils.executeScript(scriptPath);
 	}
 	//-------------------------------------------------------------------------------------------//
+	//-------------------------------------------------------------------------------------------//
+	//storm
+	//-------------------------------------------------------------------------------------------//
+	@RequestMapping("/startStorm")
+	@ResponseBody
+	public String startStorm(){
+		String scriptPath = request.getRealPath(File.separator) + "script/storm-cluster.sh start";
+		return CommonUtils.executeScript(scriptPath);
+	}
+	
+	@RequestMapping("/stopStorm")
+	@ResponseBody
+	public String stopStorm(){
+		String scriptPath = request.getRealPath(File.separator) + "script/storm-cluster.sh stop";
+		return CommonUtils.executeScript(scriptPath);
+	}
+	//-------------------------------------------------------------------------------------------//
 	
 	//shell command
 	//-------------------------------------------------------------------------------------------//
